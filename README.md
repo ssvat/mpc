@@ -7,13 +7,18 @@ The main goal of the project is to implement the Model Predictive Control in C++
 
 ## Model
 
-In the Model Ppredictive Control model, data about waypoints were transformed into the vehicle space, followed by 3D order polynomial fitting to data. The actual state of the vehicle, with 100 ms latency, can reduce negative effects of the latency and increase stability of the controller, and help simulate real delay of physical actuators. 
+First, the kinematic model is the basis, with inputs including the vehicle's x and y coordinates, orientation angle (psi), velocity, the cross-track error and psi error (epsi). 
 
-The time horizon (T) was chosen to 2 s after experiments. It was shown that the MPC could drive safely around the track with T = 1 s, but on a slow speed. Higher speed requires more future information to make smart decisions in serial turns. Time step duration (dt) was setted equal to the latancy of the simulation (0.1 s), hense, 20 time steps (N) was used.
+The actuator outputs include acceleration and delta (i.e., steering angle). The model utilizes the state and actuations from the previous timestep to calculate the state at the current timestep. The equations are listed below:
+
+In the Model Ppredictive Control model, data about waypoints were transformed into the vehicle space, followed by 3D order polynomial fitting to data. The actual state of the vehicle, with 100 ms latency, can reduce negative effects of the latency and increase stability of the controller, and help simulate real delay of physical actuators. 
 
 The cost function parameters were tuned by try-and-error method, with the values stored in the src/MPC.h file. The objective is to reach maximal speed and agressive race style with use of the whole width of the road and breaking before turns.
 
-There are also two kinds of errors: cross track error (cte) and ψ error (eψ). These error were used to build the cost function for the MPC and updated at the next time step. The parameters of the cost function and other parameters for the Model Predictive Controller are tuned for optimization.
+Time step duration (dt) was setted equal to the latancy of the simulation (0.1 s), hense, 20 time steps (N) was used.
+The timestep evaluation frquency and evaluation period were set up as 10 and 0.1, repspectively, equal to the latency of the simluation as 0.1 s.
+
+There are two kinds of errors: cross track error (cte) and ψ error (eψ). These error were used to build the cost function for the MPC and updated at the next time step. The parameters of the cost function and other parameters for the Model Predictive Controller are tuned for optimization.
 
 This solution utilized the IPOPT and CPPAD libraries to calculate an optimal trajectory and its associated actuation commands in order to minimize error with a third-degree polynomial fit to the given waypoints. The optimization considers only a short duration's worth of waypoints, and produces a trajectory for that duration based upon a model of the vehicle's kinematics and a cost function based mostly on the vehicle's cross-track error (roughly the distance from the track waypoints) and orientation angle error, with other cost factors included to improve performance.
 
