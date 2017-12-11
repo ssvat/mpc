@@ -3,7 +3,7 @@ Self-Driving Car Engineer Nanodegree Program
 
 ## Introduction
 
-The main goal of the project is to implement the Model Predictive Control in C++ to drive the car and finish the track, by using the Udacity Starter Code and Simulator as well.
+The main goal of the project is to implement the Model Predictive Control in C++ to drive the car and finish the track in a simulator which communicates telemetry and tracks waypoint data via websocket by sending steering and acceleration commands back to the simulator. 
 
 ## Model
 
@@ -14,6 +14,8 @@ The time horizon (T) was chosen to 2 s after experiments. It was shown that the 
 The cost function parameters were tuned by try-and-error method, with the values stored in the src/MPC.h file. The objective is to reach maximal speed and agressive race style with use of the whole width of the road and breaking before turns.
 
 There are also two kinds of errors: cross track error (cte) and ψ error (eψ). These error were used to build the cost function for the MPC and updated at the next time step. The parameters of the cost function and other parameters for the Model Predictive Controller are tuned for optimization.
+
+This solution utilized the IPOPT and CPPAD libraries to calculate an optimal trajectory and its associated actuation commands in order to minimize error with a third-degree polynomial fit to the given waypoints. The optimization considers only a short duration's worth of waypoints, and produces a trajectory for that duration based upon a model of the vehicle's kinematics and a cost function based mostly on the vehicle's cross-track error (roughly the distance from the track waypoints) and orientation angle error, with other cost factors included to improve performance.
 
 ## Result
 
