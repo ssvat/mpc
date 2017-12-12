@@ -23,11 +23,15 @@ There are two kinds of errors: cross track error (cte) and orientation error (e�
 
 These error were used to build the cost function for the MPC and updated at the next time step. The parameters of the cost function and other parameters for the Model Predictive Controller are tuned for optimization. Based on the change rate of errors by deriving the kinematic model around these errors, the new state vector [x,y,ψ,v,cte,eψ] can be calculated.
 
+The waypoints have been processed with transformation to the vehicle's perspective in main.cpp. This simplifies polynomial curve fitting to the waypoints because the vehicle's x and y coordinates are based on the origin (0, 0), as well as zero for the orientation angle. So px = 0, py = 0, and psi = 0.
+
 This solution utilized the IPOPT and CPPAD libraries to calculate an optimal trajectory and its associated actuation commands in order to minimize error with a third-degree polynomial fit to the given waypoints. The optimization considers only a short duration's worth of waypoints, and produces a trajectory for that duration based upon a model of the vehicle's kinematics and a cost function based mostly on the vehicle's cross-track error (roughly the distance from the track waypoints) and orientation angle error, with other cost factors included to improve performance.
+
+
 
 ## Tuning and Result
 
-Timestep Length and Elapsed Duration (N & dt) values were set as 25 and 0.05 originally. The timestep evaluation frquency and evaluation period were set up as 10 and 0.1, repspectively, equal to the latency of the simluation as 0.1 s. It means that the optimizer is considering a one-second (1 s) duration. These parameters are very sensitive and other combinations have also been tested. 
+Timestep Length and Elapsed Duration (N & dt) values were set as 25 and 0.05 originally. The timestep evaluation frquency and evaluation period were set up as 10 and 0.1, repspectively. It means that the optimizer is considering a one-second (1 s) duration. These parameters are very sensitive and other combinations in between (not listed here) have also been tested. 
 
 The video of result is being placed at:
 https://youtu.be/TtvLLuImBD8
