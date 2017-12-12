@@ -9,7 +9,9 @@ The main goal of the project is to implement the Model Predictive Control in C++
 
 First, the kinematic model is the basis, with inputs including the vehicle's x and y coordinates, orientation angle (psi), velocity, the cross-track error and psi error (epsi). 
 
-The actuator outputs include acceleration and delta (i.e., steering angle). The model utilizes the state and actuations from the previous timestep to calculate the state at the current timestep. The equations are listed below:
+The actuator outputs include acceleration and delta (i.e., steering angle). The model utilizes the state and actuations from the previous timestep to calculate the state at the current timestep. The equations from the Global Kinematic Model are listed below:
+
+![Equations](equations.png)
 
 In the Model Ppredictive Control model, data about waypoints were transformed into the vehicle space, followed by 3D order polynomial fitting to data. The actual state of the vehicle, with 100 ms latency, can reduce negative effects of the latency and increase stability of the controller, and help simulate real delay of physical actuators. 
 
