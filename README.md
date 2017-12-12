@@ -17,9 +17,6 @@ In the Model Ppredictive Control model, data about waypoints were transformed in
 
 The cost function parameters were tuned by try-and-error method, with the values stored in the src/MPC.h file. The objective is to reach maximal speed and agressive race style with use of the whole width of the road and breaking before turns.
 
-Time step duration (dt) was setted equal to the latancy of the simulation (0.1 s), hense, 20 time steps (N) was used.
-The timestep evaluation frquency and evaluation period were set up as 10 and 0.1, repspectively, equal to the latency of the simluation as 0.1 s.
-
 There are two kinds of errors: cross track error (cte) and orientation error (eψ):
 
 ![Equations 2](equations2.png)
@@ -28,7 +25,9 @@ These error were used to build the cost function for the MPC and updated at the 
 
 This solution utilized the IPOPT and CPPAD libraries to calculate an optimal trajectory and its associated actuation commands in order to minimize error with a third-degree polynomial fit to the given waypoints. The optimization considers only a short duration's worth of waypoints, and produces a trajectory for that duration based upon a model of the vehicle's kinematics and a cost function based mostly on the vehicle's cross-track error (roughly the distance from the track waypoints) and orientation angle error, with other cost factors included to improve performance.
 
-## Result
+## Tuning and Result
+
+Timestep Length and Elapsed Duration (N & dt) values were set as 25 and 0.05 originally. The timestep evaluation frquency and evaluation period were set up as 10 and 0.1, repspectively, equal to the latency of the simluation as 0.1 s. It means that the optimizer is considering a one-second (1 s) duration. These parameters are very sensitive and other combinations have also been tested. 
 
 The video of result is being placed at:
 https://youtu.be/TtvLLuImBD8
