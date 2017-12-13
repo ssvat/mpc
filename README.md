@@ -23,10 +23,10 @@ There are two kinds of errors: cross track error (cte) and orientation error (e�
 
 These error were used to build the cost function for the MPC and updated at the next time step. The parameters of the cost function and other parameters for the Model Predictive Controller are tuned for optimization. Based on the change rate of errors by deriving the kinematic model around these errors, the new state vector [x,y,ψ,v,cte,eψ] can be calculated.
 
-The waypoints have been processed with transformation to the vehicle's perspective in main.cpp. This simplifies polynomial curve fitting to the waypoints because the vehicle's x and y coordinates are based on the origin (0, 0), as well as zero for the orientation angle. So px = 0, py = 0, and psi = 0.
+The waypoints have been processed with transformation to the vehicle's perspective in main.cpp. This simplifies polynomial curve fitting to the waypoints because the vehicle's x and y coordinates are based on the origin (0, 0), as well as zero for the orientation angle. So px = 0, py = 0, and psi = 0. This solution utilized the IPOPT and CPPAD libraries to calculate an optimal trajectory and its associated actuation commands in order to minimize error with a third-degree polynomial fit to the given waypoints. The optimization considers only a short duration's worth of waypoints, and produces a trajectory for that duration based upon a model of the vehicle's kinematics and a cost function based mostly on the vehicle's cross-track error (roughly the distance from the track waypoints) and orientation angle error, with other cost factors included to improve performance.
 
-This solution utilized the IPOPT and CPPAD libraries to calculate an optimal trajectory and its associated actuation commands in order to minimize error with a third-degree polynomial fit to the given waypoints. The optimization considers only a short duration's worth of waypoints, and produces a trajectory for that duration based upon a model of the vehicle's kinematics and a cost function based mostly on the vehicle's cross-track error (roughly the distance from the track waypoints) and orientation angle error, with other cost factors included to improve performance.
-
+### Latency
+First I used the original kinematic equations described previously. They are also controlled by the actuations from the previous timestep. With a delay of millisecond (timestep interval), the actuations are utilized at the future timestep with the modified conditions from line 107 to 111 in MPC.cpp. An additional cost penalizing both velocity and delta is considered from line 62 to 63 in MPC.cpp) for control optimization.
 
 
 ## Tuning and Result
