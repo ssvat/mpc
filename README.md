@@ -1,5 +1,4 @@
 # CarND-Model Predicitve Control
-Self-Driving Car Engineer Nanodegree Program
 
 ## Introduction
 
